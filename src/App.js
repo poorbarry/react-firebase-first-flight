@@ -10,12 +10,16 @@ class App extends Component {
       newData: ""
     };
 
+    this.dataRef = null;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    database.ref().on("value", snapshot => {
+    this.dataRef = database.ref("/WOWOW/lolo/hehe");
+
+    this.dataRef.on("value", snapshot => {
       this.setState({
         data: snapshot.val()
       });
@@ -31,10 +35,15 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    database
-      .ref()
-      .child("AMAZINGNEWDATA")
-      .set(this.state.newData);
+    // database
+    // .ref()
+    // .child("AMAZINGNEWDATA")
+    // .push(this.state.newData);
+    // OR
+    // database.ref("/AMAZINGNEWDATA")
+    //   .push(this.state.newData);
+
+    this.dataRef.push(this.state.newData);
   }
 
   render() {
